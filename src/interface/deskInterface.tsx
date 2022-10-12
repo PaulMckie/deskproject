@@ -5,3 +5,7 @@ export interface deskRow {
 export interface deskInfo extends deskRow {
     deskNum: number;
 }
+
+export interface deskClass extends deskInfo {
+    bookedStatus: boolean;
+}
