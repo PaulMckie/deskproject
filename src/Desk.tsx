@@ -1,9 +1,9 @@
 import { ReactElement, useState } from "react";
 
-function Table(): ReactElement {
+export function Desk(): ReactElement {
     const [bookedState, setBookedState] = useState(false);
 
-    const toggleTableBook = (): void => {
+    const toggleDeskBook = (): void => {
         if (!bookedState) {
             setBookedState(!bookedState);
             console.log('Table Booked!');
@@ -15,8 +15,6 @@ function Table(): ReactElement {
     }
 
     return (
-        <button onClick={() => { toggleTableBook() }}>I am a button click me!</button>
+        <button onClick={() => { toggleDeskBook() }}>I am a button click me!</button>
     );
 }
-
-export default Table;

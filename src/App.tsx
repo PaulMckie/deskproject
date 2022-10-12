@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
-import Table from './Table';
+import { Desk } from './Desk';
 
-function App(): any {
+export function App(): any {
   return (
     <div className="App">
       <p>DEMO Desk Booking System</p>
-      <Table />
+      <Desk />
     </div>
   );
 }
-
-export default App;
