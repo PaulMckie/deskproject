@@ -19,9 +19,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "outDir": "build"
+    "outDir": "build",
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
-  "include": [
-    "src"
+  "files": [
+    "src/app.tsx"
   ]
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
+import Table from './Table';
 
-function App() {
+function App(): any {
   return (
     <div className="App">
       <p>DEMO Desk Booking System</p>
-      <button>I am a button click me!</button>
+      <Table />
     </div>
   );
 }
