@@ -19,3 +19,7 @@
 .DeskLayout>* {
   flex: 0 0 20%;
 }
+
+button:hover{
+  border: 2px white solid;
+}

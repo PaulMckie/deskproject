@@ -1,4 +1,12 @@
-export interface IDeskInfo {
+export interface IDeskAvailability {
+  bookingUserID: string;
+  bookingDay: number;
+  bookingMonth: number;
+  bookingYear:number;
+}
+
+export interface IDeskInfo{
   deskNum: number;
-  userID: string;
+  bookingUserID: string;
+  bookingDate: Date;
 }
