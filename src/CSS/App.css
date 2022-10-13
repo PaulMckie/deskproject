@@ -9,3 +9,13 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.DeskLayout {
+  width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.DeskLayout>* {
+  flex: 0 0 20%;
+}

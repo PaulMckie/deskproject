@@ -1,11 +1,12 @@
-export interface deskRow {
-    row: number;
-}
+// export interface deskRow {
+//     row: number;
+//     bookDesk: any;
+// }
 
-export interface deskInfo extends deskRow {
+export interface deskInfo {
     deskNum: number;
 }
 
-export interface deskClass extends deskInfo {
-    bookedStatus: boolean;
-}
+// export interface deskClass extends deskInfo {
+//     bookedStatus: boolean;
+// }
