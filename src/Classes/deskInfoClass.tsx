@@ -82,9 +82,9 @@ export class deskInfoClass {
     return this.bookedStatus;
   }
 
-  public isDateBooked(userID: string, date: Date): number{
+  public isDateBooked(userID: string, date: Date): number | string{
 
-    let status: number = 0;
+    let status: number | string = 0;
 
     this.bookedStatus.forEach(bookedDate => {
       if (bookedDate !== undefined && bookedDate.bookingDay === date.getDate() && bookedDate.bookingMonth === date.getMonth() &&bookedDate.bookingYear === date.getFullYear()){
@@ -93,7 +93,7 @@ export class deskInfoClass {
           return;
         }
         else {
-          status = 1;
+          status = bookedDate.bookingUserID;
           return;
         }
       }

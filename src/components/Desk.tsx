@@ -20,10 +20,10 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
 
     if (status === 2) {
       text = `Desk ${self.getDeskID()} is already booked by yourself. Do you want to unbook it?`;
-    } else if (status === 1) {
-      text = `Desk ${self.getDeskID()} is already booked by ${self.userID}.`;
-    } else {
+    } else if (status === 0) {
       text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
+    } else {
+      text = `Desk ${self.getDeskID()} is already booked by ${status}.`;
     }
 
     return text;
@@ -33,22 +33,30 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
 
     const status = self.isDateBooked(bookingUserID, checkDate);
 
-    console.log(`Updating button colour`, self.getBookedStatus());
+    // console.log(`Updating button colour`, self.getBookedStatus());
 
     switch (status) {
       case 0:
         return 'green'
       
-      case 1:
-        return 'red'
-      
       case 2:
         return 'purple'
       
       default:
-        return 'black'
+        return 'red'
     }
 
+  };
+
+  const handleYesHidden = (bookingUserID: string, checkDate: Date): string => {
+    const status = self.isDateBooked(bookingUserID, checkDate);
+
+    if (status === 0 || status === 2) {
+      return 'inherit';
+    }
+    else {
+      return 'none';
+    }
   };
 
   return (
@@ -78,10 +86,7 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
                 setSelected(false);
               }}
               style={{
-                display:
-                  self.isDateBooked(bookingUserID, bookingDate) === 1
-                    ? "none"
-                    : "inherit",
+                display: handleYesHidden(bookingUserID, bookingDate)
               }}
             >
               Yes
