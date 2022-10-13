@@ -1,9 +1,10 @@
-// import { deskClass } from '../interface/deskInterface'
+import { useState } from "react";
+
 export class deskInfoClass {
-    private deskID: number;
-    private userID: string | undefined;
-    private bookedStatus: boolean;
-    //todo private privacyMode: boolean;
+  private deskID: number;
+  private userID: string | undefined;
+  private bookedStatus: boolean;
+  //todo private privacyMode: boolean;
 
     constructor(deskNum: number) {
         this.deskID = deskNum;

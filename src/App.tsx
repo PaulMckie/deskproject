@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
-import "./App.css";
-import { DeskRow } from "./DeskRow.tsx";
+import React, { ReactElement, FC, useState } from "react";
 import { utils } from "./utils.tsx";
 import { Desk } from "./Desk.tsx"
+import "./CSS/App.css";
+import Navbar from "./components/Navbar/Navbar.tsx";
 
 const Initialise = (): any => {
   const userID = "User";
@@ -10,11 +10,12 @@ const Initialise = (): any => {
 };
 
 //utils - generates 5 rows
-export function App(): any {
+const App: FC = () => {
   const { userID } = Initialise();
 
   return (
     <div className="App">
+      <Navbar />
       <p>DEMO Desk Booking System</p>
       <div className="DeskLayout">
         {utils.range(1, 25).map((deskNumber: number) => (
@@ -23,4 +24,6 @@ export function App(): any {
       </div>
     </div>
   );
-}
+};
+
+export default App;
