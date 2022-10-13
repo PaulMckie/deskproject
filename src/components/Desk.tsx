@@ -5,9 +5,10 @@ import "../CSS/Desk.css";
 
 interface MyProps {
   deskNum: IDeskInfo;
+  userID: IDeskInfo;
 }
 
-const Desk: FC<MyProps> = ({ deskNum }) => {
+const Desk: FC<MyProps> = ({ deskNum, userID }) => {
   const [self, setSelf] = useState(new deskInfoClass(deskNum));
 
   const [selected, setSelected] = useState(false);
@@ -15,8 +16,10 @@ const Desk: FC<MyProps> = ({ deskNum }) => {
   const getModalText = (): string => {
     let text: string;
 
-    if (self.getbookedStatus()) {
-      text = `Desk ${self.getDeskID()} is already booked. Do you want to unbook it?`;
+    if (self.getBookedStatus() && userID === self.userID) {
+      text = `Desk ${self.getDeskID()} is already booked by yourself. Do you want to unbook it?`;
+    } else if (self.getBookedStatus()) {
+      text = `Desk ${self.getDeskID()} is already booked by ${self.userID}.`;
     } else {
       text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
     }
@@ -32,6 +35,13 @@ const Desk: FC<MyProps> = ({ deskNum }) => {
         onClick={() => {
           setSelected(true);
         }}
+        style={{
+          backgroundColor: !self.getBookedStatus()
+            ? "green"
+            : userID === self.userID
+            ? "purple"
+            : "red",
+        }}
       >
         {self.getDeskID()}
       </button>
@@ -44,8 +54,14 @@ const Desk: FC<MyProps> = ({ deskNum }) => {
             <p>{getModalText()}</p>
             <button
               onClick={() => {
-                self.toggleDeskBook();
+                self.toggleDeskBook(userID);
                 setSelected(false);
+              }}
+              style={{
+                display:
+                  self.getBookedStatus() && userID !== self.userID
+                    ? "none"
+                    : "inherit",
               }}
             >
               Yes
