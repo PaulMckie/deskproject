@@ -3,8 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./nav.css";
 import Modal from "./sign-in.tsx";
 import { useState } from "react";
-
-const Navbar = () => {
+interface myStates {
+  setUserID: React.Dispatch<React.SetStateAction<string>>;
+}
+const Navbar = ({ setUserID }: myStates) => {
   const [modal, setModal] = useState(false);
 
   const btnHandle = () => {
@@ -28,7 +30,7 @@ const Navbar = () => {
       </nav>
       {modal ? (
         <div>
-          <Modal />
+          <Modal setUserID={setUserID} />
         </div>
       ) : null}
     </>
