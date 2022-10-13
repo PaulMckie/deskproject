@@ -16,12 +16,21 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
   const getModalText = (bookingUserID: string, bookingDate: Date): string => {
     let text: string;
 
-    const status: number = self.isDateBooked(bookingUserID, bookingDate);
+    let status: number | string;
+
+    if (bookingUserID.toLowerCase() !== 'guest') {
+      status = self.isDateBooked(bookingUserID, bookingDate);
+    }
+    else {
+      status = 'Guest';
+    }
 
     if (status === 2) {
       text = `Desk ${self.getDeskID()} is already booked by yourself. Do you want to unbook it?`;
     } else if (status === 0) {
       text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
+    } else if (status === 'Guest') {
+      text = `Guest is not allowed to book desks! Please sign in with a user name.`;
     } else {
       text = `Desk ${self.getDeskID()} is already booked by ${status}.`;
     }
@@ -38,10 +47,10 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
     switch (status) {
       case 0:
         return 'green'
-      
+
       case 2:
         return 'purple'
-      
+
       default:
         return 'red'
     }
@@ -49,7 +58,14 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
   };
 
   const handleYesHidden = (bookingUserID: string, checkDate: Date): string => {
-    const status = self.isDateBooked(bookingUserID, checkDate);
+    let status: number | string;
+
+    if (bookingUserID.toLowerCase() !== 'guest') {
+      status = self.isDateBooked(bookingUserID, checkDate);
+    }
+    else {
+      status = 'Guest';
+    }
 
     if (status === 0 || status === 2) {
       return 'inherit';
@@ -96,7 +112,7 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
                 setSelected(false);
               }}
             >
-              No
+              {bookingUserID.toLowerCase() === 'guest' ? `Ok` : `No`}
             </button>
           </span>
         </div>
