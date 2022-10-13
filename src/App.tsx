@@ -4,14 +4,16 @@ import Desk from "./components/Desk.tsx";
 import "./CSS/App.css";
 import Navbar from "./components/Navbar/Navbar.tsx";
 
-// const Initialise = (): any => {
-//   const userID = "User";
-//   return { userID };
+// const Initialize = ():
+//   | string
+//   | React.Dispatch<React.SetStateAction<string>> => {
+//   const [userID, setUserID] = useState("bob");
+//   return { userID, setUserID };
 // };
 
 //utils - generates 5 rows
 const App: FC = () => {
-  // const { userID } = Initialise();
+  // const { userID, setUserID } = Initialize();
 
   return (
     <div className="App">
