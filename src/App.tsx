@@ -1,6 +1,6 @@
 import React, { ReactElement, FC, useState } from "react";
 import { utils } from "./utils.tsx";
-import { Desk } from "./Desk.tsx"
+import Desk from "./components/Desk.tsx"
 import "./CSS/App.css";
 import Navbar from "./components/Navbar/Navbar.tsx";
 

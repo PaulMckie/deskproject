@@ -1,9 +1,0 @@
-.DeskRow {
-    /* align-items: center; */
-    /* justify-content: center; */
-    text-align: center;
-    flex-direction: row;
-    display: flex;
-    min-width: 75%;
-    height: 50px;
-}
