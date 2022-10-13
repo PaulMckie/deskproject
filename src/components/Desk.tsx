@@ -1,10 +1,10 @@
 import React, { ReactElement, useState, FC } from "react";
-import { deskInfo } from "../interface/deskInterface.tsx";
+import { IDeskInfo } from "../interface/deskInterface.tsx";
 import { deskInfoClass } from "../Classes/deskInfoClass.tsx";
 import "../CSS/Desk.css";
 
 interface MyProps {
-  deskNum: deskInfo;
+  deskNum: IDeskInfo;
 }
 
 const Desk: FC<MyProps> = ({ deskNum }) => {
@@ -17,8 +17,7 @@ const Desk: FC<MyProps> = ({ deskNum }) => {
 
     if (self.getbookedStatus()) {
       text = `Desk ${self.getDeskID()} is already booked. Do you want to unbook it?`;
-    }
-    else {
+    } else {
       text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
     }
 
@@ -36,12 +35,28 @@ const Desk: FC<MyProps> = ({ deskNum }) => {
       >
         {self.getDeskID()}
       </button>
-      <div className='BookDeskModal' style={{ display: (selected === false) ? 'none' : 'block' }}>
-        <div className='BookDeskInterface'>
+      <div
+        className="BookDeskModal"
+        style={{ display: selected === false ? "none" : "block" }}
+      >
+        <div className="BookDeskInterface">
           <span>
             <p>{getModalText()}</p>
-            <button onClick={() => { self.toggleDeskBook(); setSelected(false) }}>Yes</button>
-            <button onClick={() => { setSelected(false) }}>No</button>
+            <button
+              onClick={() => {
+                self.toggleDeskBook();
+                setSelected(false);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => {
+                setSelected(false);
+              }}
+            >
+              No
+            </button>
           </span>
         </div>
       </div>
