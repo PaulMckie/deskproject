@@ -2,17 +2,18 @@ import { useState } from "react";
 
 export class deskInfoClass {
   private deskID: number;
-  private userID: string | undefined;
+  private userID: string;
   private bookedStatus: boolean;
   //todo private privacyMode: boolean;
 
   constructor(deskNum: number) {
     this.deskID = deskNum;
     this.bookedStatus = false;
+    this.userID = "";
   }
 
   // toggle true or false for avalibility
-  public toggleDeskBook(): void {
+  public toggleDeskBook(userID: string): void {
     if (this !== undefined) {
       const buttonElement: HTMLElement = document.getElementById(
         `${this.deskID}`
@@ -20,12 +21,14 @@ export class deskInfoClass {
 
       if (!this.bookedStatus) {
         this.bookedStatus = !this.bookedStatus;
-        console.log(`Booked table ${this.deskID}!`);
-        buttonElement.style.backgroundColor = "red";
+        this.userID = userID;
+        console.log(`${this.userID} booked table ${this.deskID}!`);
+        // buttonElement.style.backgroundColor = "red";
       } else {
         this.bookedStatus = !this.bookedStatus;
+        this.userID = "";
         console.log(`Unbooked table ${this.deskID}!`);
-        buttonElement.style.backgroundColor = "green";
+        // buttonElement.style.backgroundColor = "green";
       }
     }
   }
@@ -34,7 +37,7 @@ export class deskInfoClass {
     return this.deskID;
   }
 
-  public getbookedStatus(): boolean {
+  public getBookedStatus(): boolean {
     return this.bookedStatus;
   }
 }
