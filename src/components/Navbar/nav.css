@@ -21,11 +21,30 @@ nav {
 
 .logo {
   margin-right: 70vw;
-  margin-left: 10px;
+  margin-left: 50px;
 }
 
 .signModal {
   position: absolute;
   top: 100px;
-  right: 16%;
+  right: 100px;
+  animation-name: modal-left;
+  animation-duration: 0.5s;
+}
+
+#input[type="text"] {
+  width: 100%;
+  padding: 6px 6px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: solid rgb(71, 71, 71) 2px;
+}
+
+@keyframes modal-left {
+  0% {
+    right: -150px;
+  }
+  100% {
+    right: 100px;
+  }
 }
