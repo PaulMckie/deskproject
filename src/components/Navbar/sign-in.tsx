@@ -2,8 +2,9 @@ import "../Navbar/nav.css";
 import React, { useState, useRef } from "react";
 interface myStates {
   setUserID: React.Dispatch<React.SetStateAction<string>>;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Modal = ({ setUserID }: myStates) => {
+const Modal = ({ setUserID, setModal }: myStates) => {
   const inputRef = useRef(null);
 
   const userIDFunc = (e) => {
@@ -16,6 +17,7 @@ const Modal = ({ setUserID }: myStates) => {
       <button
         onClick={(e) => {
           userIDFunc(e);
+          setModal(false);
         }}
       >
         Submit

@@ -40,6 +40,7 @@ const App: FC = () => {
           />
         </div>
       </div>
+      <h2>{userID}</h2>
       <p>DEMO Desk Booking System</p>
     </div>
   );

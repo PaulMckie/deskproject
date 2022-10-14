@@ -30,7 +30,7 @@ const Navbar = ({ setUserID }: myStates) => {
       </nav>
       {modal ? (
         <div>
-          <Modal setUserID={setUserID} />
+          <Modal setUserID={setUserID} setModal={setModal} />
         </div>
       ) : null}
     </>
