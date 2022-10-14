@@ -22,13 +22,25 @@ const App: FC = () => {
   return (
     <div className="App">
       <Navbar setUserID={setUserID} />
-      <p>DEMO Desk Booking System</p>
       <div className="DeskLayout">
         {utils.range(1, 25).map((deskNumber: number) => (
-          <Desk key={deskNumber} deskNum={deskNumber} bookingUserID={userID} bookingDate={startDate}/>
+          <Desk
+            key={deskNumber}
+            deskNum={deskNumber}
+            bookingUserID={userID}
+            bookingDate={startDate}
+          />
         ))}
-        <DatePicker className="Calendar" dateFormat='dd/MM/yyyy' selected={startDate} onChange={(date:Date) => setStartDate(date)} />
+        <div className="calendar-container">
+          <DatePicker
+            className="Calendar"
+            dateFormat="dd/MM/yyyy"
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+          />
+        </div>
       </div>
+      <p>DEMO Desk Booking System</p>
     </div>
   );
 };

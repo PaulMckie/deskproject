@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #717276;
+  background-color: #c1bdb3;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,16 +10,23 @@
   color: white;
 }
 
+.calendar-container {
+  /* border: solid red 2px; */
+  position: absolute;
+  top: 17vh;
+  left: 45%;
+}
+
 .DeskLayout {
   width: 800px;
   display: flex;
   flex-wrap: wrap;
 }
 
-.DeskLayout>* {
+.DeskLayout > * {
   flex: 0 0 20%;
 }
 
-button:hover{
+button:hover {
   border: 2px white solid;
 }

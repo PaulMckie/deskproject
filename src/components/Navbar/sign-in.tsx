@@ -12,7 +12,7 @@ const Modal = ({ setUserID }: myStates) => {
 
   return (
     <div className="signModal">
-      <input id="input" ref={inputRef} type="text" />
+      <input id="input" ref={inputRef} type="text" placeholder="Enter a name" />
       <button
         onClick={(e) => {
           userIDFunc(e);
