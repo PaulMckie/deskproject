@@ -7,7 +7,7 @@ interface myStates {
 const Modal = ({ setUserID, setModal }: myStates) => {
   const inputRef = useRef(null);
 
-  const userIDFunc = (e) => {
+  const userIDHandler = () => {
     setUserID(inputRef.current.value);
   };
 
@@ -15,8 +15,8 @@ const Modal = ({ setUserID, setModal }: myStates) => {
     <div className="signModal">
       <input id="input" ref={inputRef} type="text" placeholder="Enter a name" />
       <button
-        onClick={(e) => {
-          userIDFunc(e);
+        onClick={() => {
+          userIDHandler();
           setModal(false);
         }}
       >

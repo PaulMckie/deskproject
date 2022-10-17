@@ -6,13 +6,6 @@ import Navbar from "./components/Navbar/Navbar.tsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-// const Initialize = ():
-//   | string
-//   | React.Dispatch<React.SetStateAction<string>> => {
-//   const [userID, setUserID] = useState("");
-//   return { userID, setUserID };
-// };
-
 //utils - generates 5 rows
 const App: FC = () => {
   // Initialise User ID to Guest User
