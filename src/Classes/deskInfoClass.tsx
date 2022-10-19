@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { IDeskAvailability } from "../interface/deskInterface.tsx";
 
-interface bookingDate {
-  bookingDay: IDeskAvailability;
-  bookingMonth: IDeskAvailability;
-  bookingYear: IDeskAvailability;
-  bookingUserID: IDeskAvailability;
-}
+interface bookingDate extends IDeskAvailability { }
 
 export class deskInfoClass {
   private deskID: number;

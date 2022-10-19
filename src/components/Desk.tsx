@@ -3,11 +3,7 @@ import { IDeskInfo } from "../interface/deskInterface.tsx";
 import { deskInfoClass } from "../Classes/deskInfoClass.tsx";
 import "../CSS/Desk.css";
 
-interface MyProps {
-  deskNum: IDeskInfo;
-  bookingUserID: IDeskInfo;
-  bookingDate: IDeskInfo;
-}
+interface MyProps extends IDeskInfo { }
 
 const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
   // Initialise deskInfoClass so that each desk has persistent memory

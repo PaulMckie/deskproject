@@ -1,19 +1,23 @@
-import "../Navbar/nav.css";
+import "../../CSS/nav.css";
 import React, { useState, useRef } from "react";
 interface myStates {
   setUserID: React.Dispatch<React.SetStateAction<string>>;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Modal = ({ setUserID, setModal }: myStates) => {
-  const inputRef = useRef(null);
+  // const inputRef = useRef("");
+  let input: string;
 
   const userIDHandler = () => {
-    setUserID(inputRef.current.value);
+    // if (inputRef.current) {
+    //   setUserID(inputRef.current.valueOf);
+    // }
+    setUserID(input);
   };
 
   return (
     <div className="signModal">
-      <input id="input" ref={inputRef} type="text" placeholder="Enter a name" />
+      <input id="input" type="text" placeholder="Enter a name" onChange={(e) => { input = e.target.value }} />
       <button
         onClick={() => {
           userIDHandler();

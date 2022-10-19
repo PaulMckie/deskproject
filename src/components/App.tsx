@@ -1,8 +1,8 @@
 import React, { ReactElement, FC, useState } from "react";
-import { utils } from "./utils.tsx";
-import Desk from "./components/Desk.tsx";
-import "./CSS/App.css";
-import Navbar from "./components/Navbar/Navbar.tsx";
+import { utils } from "../utils.tsx";
+import Desk from "./Desk.tsx";
+import "../CSS/App.css";
+import Navbar from "./Navbar/Navbar.tsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
