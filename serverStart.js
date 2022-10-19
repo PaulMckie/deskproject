@@ -18,6 +18,11 @@
 
 const express = require('express');
 const path = require('path');
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -29,5 +34,13 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/build/index.html'));
 });
 
-app.listen(port);
+const server = app.listen(port);
 console.log('Server started at http://localhost:' + port);
+
+rl.question('', function (response) {
+    if (response.toLowerCase() === 'close') {
+        console.log('Closing Server!');
+        server.close();
+        process.exit(0);
+    }
+});
