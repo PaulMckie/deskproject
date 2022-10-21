@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { json } from "stream/consumers";
+import { forEachChild } from "typescript";
 import { IDeskAvailability, IDeskInfo } from "../interface/deskInterface";
 
 interface bookingDate {
@@ -9,7 +11,6 @@ interface bookingDate {
 interface booking extends bookingDate {
   userName: string;
 }
-
 
 // export class deskInfoClass {
 //   private deskID: number;
@@ -122,62 +123,85 @@ export class deskInfoClass {
   private deskID: number;
   private userID: string;
   private bookingID: string;
-
+  private allBookings: any[] = [];
   //todo private privacyMode: boolean;
 
   // Initialise the class
   constructor(deskNum: number, date: Date) {
     this.deskID = deskNum;
-    this.userID = '';
+    this.userID = "";
 
     const bookingDate: bookingDate = {
       deskID: deskNum,
       date: new Date(date.toISOString().substring(0, 10)),
     };
+
+    console.log(bookingDate, "i am booking date");
     // Place GET request to find if desk has a booking for the current date here
+    this.getAllBookings();
     this.requestBookingStatus(bookingDate);
   }
 
   private async requestBookingStatus(bookingDate: bookingDate): Promise<void> {
-    console.log('Attempting to get booking')
-    const response: Response = await fetch('/', {
-      method: 'REQUEST',
-      body: JSON.stringify(bookingDate),
+    console.log("Attempting to get booking");
+
+    this.allBookings.forEach((booking) => {
+      console.log(booking, "mary");
+    });
+    // if (this.deskID === booking.deskID) {
+    //   console.log("yey");
+    // } else {
+    //   console.log("NOOOOO");
+    // }
+
+    // const booking: any = await response.json();
+    // this.userID = booking.get("userID");
+    // this.bookingID = booking.gt("_id");
+
+    console.log("Booking request complete");
+  }
+  //get all bookings
+  private async getAllBookings(): Promise<void> {
+    const response: Response = await fetch("http://localhost:4000/", {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
+
     if (response.ok) {
-      const booking: any = await response.json();
-      this.userID = booking.get('userID');
-      this.bookingID = booking.gt('_id');
+      let res = await response.json();
+
+      for (let i of res) {
+        this.allBookings.push(i);
+        console.log(this.allBookings, "all bookings");
+      }
     }
-    console.log('Booking request complete')
   }
 
   private async postBooking(booking: booking): Promise<void> {
-    const response: Response = await fetch('/', {
-      method: 'POST',
+    const response: Response = await fetch("/", {
+      method: "POST",
       body: JSON.stringify(booking),
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
     if (response.ok) {
       this.userID = booking.userName;
     }
   }
 
   private async deleteBooking(booking: bookingDate): Promise<void> {
-    const response: Response = await fetch('/' + this.bookingID, {
-      method: 'DELETE',
+    const response: Response = await fetch("/" + this.bookingID, {
+      method: "DELETE",
       body: JSON.stringify(booking),
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        "Content-Type": "application/json",
+      },
+    });
     if (response.ok) {
-      this.userID = '';
+      this.userID = "";
     }
   }
 
@@ -192,8 +216,7 @@ export class deskInfoClass {
       };
 
       this.postBooking(newBooking);
-    }
-    else {
+    } else {
       // Place DELETE request with date and desk ID
       const removeBooking: bookingDate = {
         deskID: this.deskID,
