@@ -1,57 +1,61 @@
 import React, { ReactElement, useState, FC } from "react";
-import { IDeskInfo } from "../interface/deskInterface.tsx";
+import { IDeskInfo } from "../interface/deskInterface";
 import { deskInfoClass } from "../Classes/deskInfoClass.tsx";
 import "../CSS/Desk.css";
 
 interface MyProps extends IDeskInfo { }
 
-const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
+const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate }) => {
   // Initialise deskInfoClass so that each desk has persistent memory
-  const [self, setSelf] = useState(new deskInfoClass(deskNum));
+  const [self, setSelf] = useState(new deskInfoClass(deskID, bookingDate));
   // Allow Desk cmponet to know whether it is selected or not
   const [selected, setSelected] = useState(false);
 
   // Handle different text for Modal depending on desk status
-  const getModalText = (bookingUserID: string, bookingDate: Date): string => {
+  const getModalText = (bookingUserID: string): string => {
     let text: string;
 
-    let status: number | string;
+    let status: string;
 
     // Get Desk status if user is not Guest
     if (bookingUserID.toLowerCase() !== 'guest') {
-      status = self.isDateBooked(bookingUserID, bookingDate);
+      status = self.getUserID();
     }
     else {
       status = 'Guest';
     }
 
     // Status 0 = Unbooked Desk, 2 = Booked by current user, otherwise booked by a different user
-    if (status === 2) {
-      text = `Desk ${self.getDeskID()} is already booked by yourself. Do you want to unbook it?`;
-    } else if (status === 0) {
-      text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
-    } else if (status === 'Guest') {
-      text = `Guest is not allowed to book desks! Please sign in with a user name.`;
-    } else {
-      text = `Desk ${self.getDeskID()} is already booked by ${status}.`;
+    switch (status) {
+      case 'Guest':
+        text = `Guest is not allowed to book desks! Please sign in with a user name.`;
+        break;
+      case bookingUserID:
+        text = `Desk ${self.getDeskID()} is already booked by yourself. Do you want to unbook it?`;
+        break;
+      case '':
+        text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
+        break;
+      default:
+        text = `Desk ${self.getDeskID()} is already booked by ${status}.`;
+        break;
     }
-
     return text;
   };
 
   // Handle desk colouration to indicate availability
-  const getButtonColour = (checkDate: Date): string => {
+  const getButtonColour = (checkUser: string): string => {
 
-    const status = self.isDateBooked(bookingUserID, checkDate);
+    const status: string = self.getUserID();
 
     // console.log(`Updating button colour`, self.getBookedStatus());
 
     // Status 0 = Unbooked Desk, 2 = Booked by current user, otherwise booked by a different user
     switch (status) {
-      case 0:
+      case '':
         return 'green'
 
-      case 2:
+      case checkUser:
         return 'purple'
 
       default:
@@ -61,19 +65,19 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
   };
 
   // Handle if the Yes button is visible
-  const handleYesHidden = (bookingUserID: string, checkDate: Date): string => {
-    let status: number | string;
+  const handleYesHidden = (bookingUserID: string): string => {
+    let status: string;
 
     // Get Desk status if user is not Guest
     if (bookingUserID.toLowerCase() !== 'guest') {
-      status = self.isDateBooked(bookingUserID, checkDate);
+      status = self.getUserID();
     }
     else {
       status = 'Guest';
     }
 
     // Status 0 = Unbooked Desk show button, 2 = Booked by current user show button, otherwise booked by a different user hide button
-    if (status === 0 || status === 2) {
+    if ((status === '' || status === bookingUserID) && status !== 'Guest') {
       return 'inherit';
     }
     else {
@@ -82,11 +86,11 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
   };
 
   // Handle the text the cancel button shows
-  const handleCancelText = (bookingUserID: string, checkDate: Date): string => {
-    const status: number | string = self.isDateBooked(bookingUserID, checkDate);
+  const handleCancelText = (bookingUserID: string): string => {
+    const status: string = self.getUserID();
 
     // Status 0 = Unbooked Desk, 2 = Booked by current user, otherwise booked by a different user
-    if ((status === 2 || status === 0) && bookingUserID.toLowerCase() !== 'guest') {
+    if ((status === '' || status === bookingUserID) && bookingUserID.toLowerCase() !== 'guest') {
       return 'No';
     }
     else {
@@ -98,7 +102,7 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
     <div className="DeskHolder">
       {/* Create Desk */}
       <button
-        id={self.getDeskID().toString()}
+        id={`${self.getDeskID()}`}
         className="Desk"
         // On Click set desk as selected
         onClick={() => {
@@ -106,7 +110,7 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
         }}
         // Dynamically change desk colour to inform user of availability
         style={{
-          backgroundColor: getButtonColour(bookingDate)
+          backgroundColor: getButtonColour(bookingUserID)
         }}
       >
         {/* Display Desk ID */}
@@ -121,16 +125,16 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
         <div className="BookDeskInterface">
           <span>
             {/* Get Text for the Modal */}
-            <p>{getModalText(bookingUserID, bookingDate)}</p>
+            <p>{getModalText(bookingUserID)}</p>
             <button
               // Handle Click of Confirmation to call desk booking function in class and then unselect the desk
               onClick={() => {
-                self.toggleDeskBook(bookingUserID, bookingDate);
+                self.handleBookingStatus(bookingUserID, bookingDate);
                 setSelected(false);
               }}
               // Handle the display of the Confirmation button
               style={{
-                display: handleYesHidden(bookingUserID, bookingDate)
+                display: handleYesHidden(bookingUserID)
               }}
             >
               Yes
@@ -142,7 +146,7 @@ const Desk: FC<MyProps> = ({ deskNum, bookingUserID, bookingDate }) => {
               }}
             >
               {/* Call function to get the correct text to display */}
-              {handleCancelText(bookingUserID, bookingDate)}
+              {handleCancelText(bookingUserID)}
             </button>
           </span>
         </div>

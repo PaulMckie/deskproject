@@ -23,7 +23,7 @@ const App: FC = () => {
         {utils.range(1, 25).map((deskNumber: number) => (
           <Desk
             key={deskNumber}
-            deskNum={deskNumber}
+            deskID={deskNumber}
             bookingUserID={userID}
             bookingDate={startDate}
           />

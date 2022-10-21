@@ -1,12 +1,10 @@
 export interface IDeskAvailability {
   bookingUserID: string;
-  bookingDay: number;
-  bookingMonth: number;
-  bookingYear: number;
+  bookingDate: Date;
 }
 
 export interface IDeskInfo {
-  deskNum: number;
+  deskID: number;
   bookingUserID: string;
   bookingDate: Date;
 }
