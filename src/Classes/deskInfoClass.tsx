@@ -197,7 +197,7 @@ export class deskInfoClass {
       // Place DELETE request with date and desk ID
       const removeBooking: bookingDate = {
         deskID: this.deskID,
-        date: date,
+        date: new Date(date.toISOString().substring(0, 10)),
       };
 
       this.deleteBooking(removeBooking);
