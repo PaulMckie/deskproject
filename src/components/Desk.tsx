@@ -3,11 +3,14 @@ import { IDeskInfo } from "../interface/deskInterface";
 import { deskInfoClass } from "../Classes/deskInfoClass.tsx";
 import "../CSS/Desk.css";
 
-interface MyProps extends IDeskInfo { }
+interface MyProps extends IDeskInfo {
+  checkForBooking: (deskID: number) => { userID: string; bookingID: string; };
+  requestBookings: (bookingDate: Date) => Promise<void>;
+}
 
-const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate }) => {
+const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking, requestBookings }) => {
   // Initialise deskInfoClass so that each desk has persistent memory
-  const [self, setSelf] = useState(new deskInfoClass(deskID, bookingDate));
+  const self: deskInfoClass = new deskInfoClass(deskID, checkForBooking, requestBookings);
   // Allow Desk cmponet to know whether it is selected or not
   const [selected, setSelected] = useState(false);
 
