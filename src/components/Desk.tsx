@@ -4,15 +4,26 @@ import { deskInfoClass } from "../Classes/deskInfoClass.tsx";
 import "../CSS/Desk.css";
 
 interface MyProps extends IDeskInfo {
-  checkForBooking: (deskID: number) => { userID: string; bookingID: string; };
+  checkForBooking: (deskID: number) => { userID: string; bookingID: string };
   requestBookings: (bookingDate: Date) => Promise<void>;
 }
 
-const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking, requestBookings }) => {
+const Desk: FC<MyProps> = ({
+  deskID,
+  bookingUserID,
+  bookingDate,
+  checkForBooking,
+  requestBookings,
+}) => {
   // Initialise deskInfoClass so that each desk has persistent memory
-  const self: deskInfoClass = new deskInfoClass(deskID, checkForBooking, requestBookings);
   // Allow Desk cmponet to know whether it is selected or not
   const [selected, setSelected] = useState(false);
+  const self: deskInfoClass = new deskInfoClass(
+    deskID,
+    checkForBooking,
+    requestBookings,
+    setSelected
+  );
 
   // Handle different text for Modal depending on desk status
   const getModalText = (bookingUserID: string): string => {
@@ -21,22 +32,21 @@ const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking
     let status: string;
 
     // Get Desk status if user is not Guest
-    if (bookingUserID.toLowerCase() !== 'guest') {
+    if (bookingUserID.toLowerCase() !== "guest") {
       status = self.getUserID();
-    }
-    else {
-      status = 'Guest';
+    } else {
+      status = "Guest";
     }
 
     // Status 0 = Unbooked Desk, 2 = Booked by current user, otherwise booked by a different user
     switch (status) {
-      case 'Guest':
+      case "Guest":
         text = `Guest is not allowed to book desks! Please sign in with a user name.`;
         break;
       case bookingUserID:
         text = `Desk ${self.getDeskID()} is already booked by yourself. Do you want to unbook it?`;
         break;
-      case '':
+      case "":
         text = `You have selected desk ${self.getDeskID()} to book. Is this correct?`;
         break;
       default:
@@ -48,23 +58,21 @@ const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking
 
   // Handle desk colouration to indicate availability
   const getButtonColour = (checkUser: string): string => {
-
     const status: string = self.getUserID();
 
     // console.log(`Updating button colour`, self.getBookedStatus());
 
     // Status 0 = Unbooked Desk, 2 = Booked by current user, otherwise booked by a different user
     switch (status) {
-      case '':
-        return 'green'
+      case "":
+        return "green";
 
       case checkUser:
-        return 'purple'
+        return "purple";
 
       default:
-        return 'red'
+        return "red";
     }
-
   };
 
   // Handle if the Yes button is visible
@@ -72,19 +80,17 @@ const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking
     let status: string;
 
     // Get Desk status if user is not Guest
-    if (bookingUserID.toLowerCase() !== 'guest') {
+    if (bookingUserID.toLowerCase() !== "guest") {
       status = self.getUserID();
-    }
-    else {
-      status = 'Guest';
+    } else {
+      status = "Guest";
     }
 
     // Status 0 = Unbooked Desk show button, 2 = Booked by current user show button, otherwise booked by a different user hide button
-    if ((status === '' || status === bookingUserID) && status !== 'Guest') {
-      return 'inherit';
-    }
-    else {
-      return 'none';
+    if ((status === "" || status === bookingUserID) && status !== "Guest") {
+      return "inherit";
+    } else {
+      return "none";
     }
   };
 
@@ -93,11 +99,13 @@ const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking
     const status: string = self.getUserID();
 
     // Status 0 = Unbooked Desk, 2 = Booked by current user, otherwise booked by a different user
-    if ((status === '' || status === bookingUserID) && bookingUserID.toLowerCase() !== 'guest') {
-      return 'No';
-    }
-    else {
-      return 'Ok';
+    if (
+      (status === "" || status === bookingUserID) &&
+      bookingUserID.toLowerCase() !== "guest"
+    ) {
+      return "No";
+    } else {
+      return "Ok";
     }
   };
 
@@ -113,7 +121,7 @@ const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking
         }}
         // Dynamically change desk colour to inform user of availability
         style={{
-          backgroundColor: getButtonColour(bookingUserID)
+          backgroundColor: getButtonColour(bookingUserID),
         }}
       >
         {/* Display Desk ID */}
@@ -133,11 +141,11 @@ const Desk: FC<MyProps> = ({ deskID, bookingUserID, bookingDate, checkForBooking
               // Handle Click of Confirmation to call desk booking function in class and then unselect the desk
               onClick={() => {
                 self.handleBookingStatus(bookingUserID, bookingDate);
-                setSelected(false);
+                // setSelected(false);
               }}
               // Handle the display of the Confirmation button
               style={{
-                display: handleYesHidden(bookingUserID)
+                display: handleYesHidden(bookingUserID),
               }}
             >
               Yes
