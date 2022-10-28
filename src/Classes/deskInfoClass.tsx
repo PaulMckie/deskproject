@@ -179,6 +179,7 @@ export class deskInfoClass {
       }
     );
     if (response.ok) {
+      console.log("booking deleted");
       this.userID = "";
       this.bookingID = "";
     }
