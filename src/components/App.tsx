@@ -20,51 +20,81 @@ const App: FC = () => {
   const [deskIDsBooked, setDeskIDsBooked] = useState<number[]>([]);
 
   useEffect(() => {
-    requestBookings(startDate)
-  }, [])
-  const requestBookings: (bookingDate: Date) => Promise<void> = async (bookingDate: Date) => {
-    console.log('Attempting to get booking for ' + bookingDate.toISOString().substring(0, 10));
-    const response: Response = await fetch('http://localhost:4000/booking/date/' + bookingDate.toISOString().substring(0, 10), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+    requestBookings(startDate);
+  }, []);
+  const requestBookings: (bookingDate: Date) => Promise<void> = async (
+    bookingDate: Date
+  ) => {
+    console.log(
+      "Attempting to get booking for " +
+        bookingDate.toISOString().substring(0, 10)
+    );
+    const response: Response = await fetch(
+      "http://localhost:4000/booking/date/" +
+        bookingDate.toISOString().substring(0, 10),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
-    console.log('This is the response: ' + response);
+    );
+    console.log("This is the response: " + response);
     let newBookings: any;
     let newDeskIDsBooked: number[] = [];
     if (response.ok) {
       newBookings = await response.json();
 
       // all booked desks for this date - DESKID
-      newBookings.bookings.forEach(booking => {
-        console.log(booking.deskID);
+      if (newBookings.bookings) {
+        newBookings.bookings.forEach((booking) => {
+          console.log(booking.deskID);
 
-        newDeskIDsBooked.push(Number(booking.deskID));
-      });
+          newDeskIDsBooked.push(Number(booking.deskID));
+        });
+      } else {
+        newBookings.forEach((booking) => {
+          console.log(booking.deskID);
+
+          newDeskIDsBooked.push(Number(booking.deskID));
+        });
+      }
     }
     // full boooking info for date - OBJECT
     setBookings(newBookings);
     setDeskIDsBooked(newDeskIDsBooked);
-    console.log(newBookings, 'i am booking with json');
-    console.log('Bookings Collected');
+    console.log(newBookings, "i am booking with json");
+    console.log("Bookings Collected");
   };
-  console.log(deskIDsBooked, 'i am outta function');
+  console.log(deskIDsBooked, "i am outta function");
 
-  const checkForBooking: (deskID: number) => { userID: string; bookingID: string; } = (deskID: number) => {
-    let userID: string = '';
-    let bookingID: string = '';
+  const checkForBooking: (deskID: number) => {
+    userID: string;
+    bookingID: string;
+  } = (deskID: number) => {
+    let userID: string = "";
+    let bookingID: string = "";
 
-    console.log(deskID + " is checking it's status!")
+    console.log(deskID + " is checking it's status!");
 
     if (deskIDsBooked.includes(deskID)) {
-      bookings.bookings.forEach(booking => {
-        if (Number(booking.deskID) === deskID) {
-          userID = booking.userName;
-          bookingID = booking._id;
-          return;
-        }
-      });
+      if (bookings.bookings) {
+        bookings.bookings.forEach((booking) => {
+          if (Number(booking.deskID) === deskID) {
+            userID = booking.userName;
+            bookingID = booking._id;
+            return;
+          }
+        });
+      } else {
+        bookings.forEach((booking) => {
+          if (Number(booking.deskID) === deskID) {
+            userID = booking.userName;
+            bookingID = booking._id;
+            return;
+          }
+        });
+      }
     }
 
     return { userID, bookingID };
@@ -94,7 +124,10 @@ const App: FC = () => {
             className="Calendar"
             dateFormat="dd/MM/yyyy"
             selected={startDate}
-            onChange={async (date: Date) => { setStartDate(date); await requestBookings(date); }}
+            onChange={async (date: Date) => {
+              setStartDate(date);
+              await requestBookings(date);
+            }}
           />
         </div>
       </div>
