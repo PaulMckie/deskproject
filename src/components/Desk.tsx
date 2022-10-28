@@ -16,14 +16,13 @@ const Desk: FC<MyProps> = ({
   requestBookings,
 }) => {
   // Initialise deskInfoClass so that each desk has persistent memory
-  // Allow Desk cmponet to know whether it is selected or not
-  const [selected, setSelected] = useState(false);
   const self: deskInfoClass = new deskInfoClass(
     deskID,
     checkForBooking,
-    requestBookings,
-    setSelected
+    requestBookings
   );
+  // Allow Desk cmponet to know whether it is selected or not
+  const [selected, setSelected] = useState(false);
 
   // Handle different text for Modal depending on desk status
   const getModalText = (bookingUserID: string): string => {
@@ -139,9 +138,9 @@ const Desk: FC<MyProps> = ({
             <p>{getModalText(bookingUserID)}</p>
             <button
               // Handle Click of Confirmation to call desk booking function in class and then unselect the desk
-              onClick={() => {
-                self.handleBookingStatus(bookingUserID, bookingDate);
-                // setSelected(false);
+              onClick={async () => {
+                await self.handleBookingStatus(bookingUserID, bookingDate);
+                setSelected(false);
               }}
               // Handle the display of the Confirmation button
               style={{

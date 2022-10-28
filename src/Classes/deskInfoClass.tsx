@@ -126,20 +126,17 @@ export class deskInfoClass {
     bookingID: string;
   };
   private requestBookings: (bookingDate: Date) => Promise<void>;
-  private setSelected: React.Dispatch<React.SetStateAction<boolean>>;
   //todo private privacyMode: boolean;
 
   // Initialise the class
   constructor(
     deskNum: number,
     checkForBooking: (deskID: number) => { userID: string; bookingID: string },
-    requestBookings: (bookingDate: Date) => Promise<void>,
-    setSelected: React.Dispatch<React.SetStateAction<boolean>>
+    requestBookings: (bookingDate: Date) => Promise<void>
   ) {
     this.deskID = deskNum;
     this.checkForBooking = checkForBooking;
     this.requestBookings = requestBookings;
-    this.setSelected = setSelected;
     // Place GET request to find if desk has a booking for the current date here
     this.requestBookingStatus();
   }
@@ -212,7 +209,6 @@ export class deskInfoClass {
     console.log("Re-request complete");
     await this.requestBookingStatus();
     console.log("new status received");
-    this.setSelected(false);
   }
 
   // Getter for Desk ID
